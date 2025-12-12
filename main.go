@@ -513,7 +513,10 @@ func backendRoutine(ctx context.Context) {
 		currTemplateLock.Lock()
 		currTemplate = CreateJobTemplate(template)
 		currTemplateLock.Unlock()
-		log(fmt.Sprintf("==//==<the dig is mining on job {blue}0x%s{/blue}!>==//==\n\ttxns: {blue}%d", currTemplate.ID, len(template.Transactions)))
+
+		// Show currTemplate.NetworkDiff as M, G, or T
+
+		log(fmt.Sprintf("==//==<the dig is mining on job {blue}0x%s{/blue}!>==//==\n\ttxns: {blue}%d{/blue}\n\tdifficulty: {blue}%s{/blue}", currTemplate.ID, len(template.Transactions), DiffFormat(currTemplate.NetworkDiff)))
 		/// this gets shipped to each StratumClient to become a full MiningJob
 		go notifyClients(currTemplate) /// this might take a while
 		select {
